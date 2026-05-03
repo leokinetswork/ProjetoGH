@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anotações - Desenvolvimento Web</title>
+
+<link rel="stylesheet" href="estilos/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>💻 Anotações de Desenvolvimento Web</h1>
+</header>
+
+<div class="container">
+
+    <div class="caixa-editor">
+        <h2 id="tituloFormulario">Nova anotação</h2>
+        <input type="text" id="titulo" placeholder="Título">
+        <textarea id="conteudo" placeholder="Escreva sua anotação..."></textarea>
+        <button class="botao-salvar" onclick="salvarNota()">Salvar</button>
+    </div>
+
+    <div id="listaNotas"></div>
+
+</div>
+
+<script>
+let listaNotas = [];
+let estaEditando = false;
+let idEdicao = null;
+
+window.onload = () => {
+    const dadosSalvos = localStorage.getItem("anotacoesDevWeb");
+    if(dadosSalvos){
+        listaNotas = JSON.parse(dadosSalvos);
+    }
+    renderizarNotas();
+}
+
+function salvarNota(){
+    const titulo = document.getElementById("titulo").value;
+    const conteudo = document.getElementById("conteudo").value;
+
+    if(titulo === "" || conteudo === ""){
+        alert("Preencha todos os campos");
+        return;
+    }
+
+    if(estaEditando){
+        const nota = listaNotas.find(n => n.id === idEdicao);
+        nota.titulo = titulo;
+        nota.conteudo = conteudo;
+        estaEditando = false;
+        idEdicao = null;
+    } else {
+        listaNotas.push({
+            id: Date.now(),
+            titulo: titulo,
+            conteudo: conteudo
+        });
+    }
+
+    document.getElementById("titulo").value = "";
+    document.getElementById("conteudo").value = "";
+
+    localStorage.setItem("anotacoesDevWeb", JSON.stringify(listaNotas));
+    renderizarNotas();
+}
+
+function renderizarNotas(){
+    const container = document.getElementById("listaNotas");
+    container.innerHTML = "";
+
+    listaNotas.slice().reverse().forEach(nota => {
+        container.innerHTML += `
+        <div class="nota">
+            <h3>${nota.titulo}</h3>
+            <p>${nota.conteudo}</p>
+            <div class="acoes">
+                <button class="botao-editar" onclick="editarNota(${nota.id})">Editar</button>
+                <button class="botao-excluir" onclick="excluirNota(${nota.id})">Excluir</button>
+            </div>
+        </div>
+        `;
+    });
+}
+
+function editarNota(id){
+    const nota = listaNotas.find(n => n.id === id);
+    document.getElementById("titulo").value = nota.titulo;
+    document.getElementById("conteudo").value = nota.conteudo;
+    estaEditando = true;
+    idEdicao = id;
+}
+
+function excluirNota(id){
+    listaNotas = listaNotas.filter(n => n.id !== id);
+    localStorage.setItem("anotacoesDevWeb", JSON.stringify(listaNotas));
+    renderizarNotas();
+}
+</script>
+
+</body>
+</html>

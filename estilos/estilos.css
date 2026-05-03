@@ -1,0 +1,73 @@
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background:#f4f6f8;
+}
+
+header{
+    background:#2c3e50;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+    padding:20px;
+}
+
+.caixa-editor{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    margin-bottom:20px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+textarea{
+    height:120px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+.botao-salvar{
+    background:#27ae60;
+    color:white;
+}
+
+.nota{
+    background:white;
+    padding:15px;
+    border-left:5px solid #3498db;
+    margin-bottom:10px;
+    border-radius:5px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.1);
+}
+
+.acoes{
+    margin-top:10px;
+}
+
+.botao-editar{
+    background:#f39c12;
+    color:white;
+}
+
+.botao-excluir{
+    background:#e74c3c;
+    color:white;
+}
